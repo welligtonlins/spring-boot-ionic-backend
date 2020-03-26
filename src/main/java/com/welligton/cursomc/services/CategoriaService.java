@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.welligton.cursomc.domain.Categoria;
+import com.welligton.cursomc.dto.CategoriaDTO;
 import com.welligton.cursomc.repositories.CategoriaRepository;
 import com.welligton.cursomc.services.exceptions.DataIntegrityException;
 
@@ -51,4 +52,10 @@ public class CategoriaService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy );
 		return repo.findAll(pageRequest);
 	}
+	
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
+	}
+	
+	
 }
