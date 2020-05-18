@@ -20,6 +20,7 @@ import com.welligton.cursomc.domain.PagamentoComCartao;
 import com.welligton.cursomc.domain.Pedido;
 import com.welligton.cursomc.domain.Produto;
 import com.welligton.cursomc.domain.enums.EstadoPagamento;
+import com.welligton.cursomc.domain.enums.Perfil;
 import com.welligton.cursomc.domain.enums.TipoCliente;
 import com.welligton.cursomc.repositories.CategoriaRepository;
 import com.welligton.cursomc.repositories.CidadeRepository;
@@ -117,13 +118,19 @@ public class DBService {
 		Cliente cli1 = new Cliente(null, "welligton lins", "welligtonlinsufac@gmail.com", "02579139206", TipoCliente.PESSOAFISICA, pe.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("999275244", "999684061"));
 		
+		Cliente cli2 = new Cliente(null, "Antonia Lins", "meu99459800@gmail.com", "30854733272", TipoCliente.PESSOAFISICA, pe.encode("123"));
+		cli2.addPerfil(Perfil.ADMIN);
+		cli2.getTelefones().addAll(Arrays.asList("999343223", "999684060"));
+		
 		Endereco e1 = new Endereco(null, "Chico Mendes", "455", "Casa A", "Calafate", "69914360", cli1, c1);
 		Endereco e2 = new Endereco(null, "Rua Das Cocadas", "394", "Fundos", "Jatoba", "54892320", cli1, c2);
+		Endereco e3 = new Endereco(null, "Chico Mendes", "455", "Casa A", "Calafate", "69914360", cli2, c1);
 		
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
 		
-		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(e1,  e2));
+		clienteRepository.saveAll(Arrays.asList(cli1,cli2));
+		enderecoRepository.saveAll(Arrays.asList(e1,  e2, e3));
 		
 		SimpleDateFormat sdt = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
