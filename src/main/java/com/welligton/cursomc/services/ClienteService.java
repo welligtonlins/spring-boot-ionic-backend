@@ -15,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.welligton.cursomc.domain.Cidade;
 import com.welligton.cursomc.domain.Cliente;
 import com.welligton.cursomc.domain.Endereco;
+import com.welligton.cursomc.domain.enums.Perfil;
 import com.welligton.cursomc.domain.enums.TipoCliente;
 import com.welligton.cursomc.dto.ClienteDTO;
 import com.welligton.cursomc.dto.ClienteNewDTO;
 import com.welligton.cursomc.repositories.ClienteRepository;
 import com.welligton.cursomc.repositories.EnderecoRepository;
+import com.welligton.cursomc.security.UserSS;
+import com.welligton.cursomc.services.exceptions.AuthorizationException;
 import com.welligton.cursomc.services.exceptions.DataIntegrityException;
 
 @Service
@@ -35,6 +38,12 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 	
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+	 	if(user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado !");
+		}
+		
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new  com.welligton.cursomc.services.exceptions.ObjectNotFoundException("Objeto nao encontrado ! Id: "+
 				id + ", Tipo: "+ Cliente.class.getName()));
