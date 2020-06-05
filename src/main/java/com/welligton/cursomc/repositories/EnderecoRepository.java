@@ -8,4 +8,5 @@ import com.welligton.cursomc.domain.Endereco;
 @Repository
 public interface EnderecoRepository extends JpaRepository<Endereco, Integer>{
 
+	
 }
